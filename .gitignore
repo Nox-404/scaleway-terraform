@@ -1,3 +1,5 @@
+adm
+stg
 **/.terraform/*
 
 *.tfstate

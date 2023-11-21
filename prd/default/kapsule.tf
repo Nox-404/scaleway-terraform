@@ -37,10 +37,6 @@ resource "scaleway_k8s_cluster" "kapsule" {
   }
 
   tags = ["terraform", "default"]
-
-  depends_on = [
-    scaleway_vpc_private_network.pn
-  ]
 }
 
 output "kapsule" {
@@ -69,9 +65,4 @@ resource "scaleway_k8s_pool" "pool" {
   placement_group_id = scaleway_instance_placement_group.pg_kapsule.id
 
   tags = ["terraform", "default"]
-
-  depends_on = [
-    scaleway_instance_placement_group.pg_kapsule,
-    scaleway_k8s_cluster.kapsule
-  ]
 }

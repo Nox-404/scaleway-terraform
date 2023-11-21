@@ -2,8 +2,6 @@
 # Cert-Manager
 ###
 resource "helm_release" "cert_manager" {
-  provider = helm.multiaz
-
   name      = "cert-manager"
   namespace = "ingress"
 
@@ -18,6 +16,7 @@ resource "helm_release" "cert_manager" {
   }
 
   depends_on = [
+    # Kapsule is not ready until a pool is.
     scaleway_k8s_pool.pool
   ]
 }
@@ -26,8 +25,6 @@ resource "helm_release" "cert_manager" {
 # Cert-Manager cluster issuer
 ###
 resource "kubectl_manifest" "cert_manager_cluster_issuer" {
-  provider = kubectl.multiaz
-
   yaml_body = <<-YAML
     apiVersion: cert-manager.io/v1
     kind: ClusterIssuer
@@ -45,7 +42,9 @@ resource "kubectl_manifest" "cert_manager_cluster_issuer" {
     YAML
 
   depends_on = [
+    # ClusterIssuer is not available until cert-manager is installed.
     helm_release.cert_manager,
-    scaleway_k8s_pool.pool
+    # Kapsule is not ready until a pool is.
+    scaleway_k8s_pool.pool,
   ]
 }

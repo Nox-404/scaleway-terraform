@@ -6,8 +6,6 @@ resource "scaleway_lb_ip" "ingress_ip" {
 # Ingress Controller
 ###
 resource "helm_release" "nginx_ingress" {
-  provider = helm.default
-
   name      = "ingress-nginx"
   namespace = "ingress"
 
@@ -60,7 +58,7 @@ resource "helm_release" "nginx_ingress" {
   }
 
   depends_on = [
-    scaleway_k8s_pool.pool,
-    scaleway_lb_ip.ingress_ip
+    # Kapsule is not ready until a pool is.
+    scaleway_k8s_pool.pool
   ]
 }

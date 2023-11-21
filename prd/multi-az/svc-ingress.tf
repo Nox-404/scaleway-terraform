@@ -2,8 +2,6 @@
 # Ingress Controller
 ###
 resource "helm_release" "nginx_ingress" {
-  provider = helm.multiaz
-
   name      = "ingress-nginx"
   namespace = "ingress"
 
@@ -49,6 +47,7 @@ resource "helm_release" "nginx_ingress" {
   ]
 
   depends_on = [
+    # Kapsule is not ready until a pool is.
     scaleway_k8s_pool.pool
   ]
 }
@@ -62,8 +61,6 @@ resource "scaleway_lb_ip" "ingress_ip" {
 }
 
 resource "kubernetes_service" "nginx" {
-  provider = kubernetes.multiaz
-
   for_each = toset(["fr-par-1", "fr-par-2"])
 
   metadata {
@@ -115,8 +112,7 @@ resource "kubernetes_service" "nginx" {
   }
 
   depends_on = [
-    helm_release.nginx_ingress,
-    scaleway_k8s_pool.pool,
-    scaleway_lb_ip.ingress_ip
+    # Kapsule is not ready until a pool is.
+    scaleway_k8s_pool.pool
   ]
 }

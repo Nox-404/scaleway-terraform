@@ -37,11 +37,6 @@ resource "scaleway_k8s_cluster" "kapsule" {
   }
 
   tags = ["terraform", "pgw"]
-
-  depends_on = [
-    scaleway_vpc_private_network.pn,
-    scaleway_vpc_gateway_network.net
-  ]
 }
 
 output "kapsule" {
@@ -74,7 +69,7 @@ resource "scaleway_k8s_pool" "pool" {
   tags = ["terraform", "pgw"]
 
   depends_on = [
-    scaleway_instance_placement_group.pg_kapsule,
-    scaleway_k8s_cluster.kapsule
+    # Isolated pool requires a public gateway.
+    scaleway_vpc_gateway_network.net
   ]
 }

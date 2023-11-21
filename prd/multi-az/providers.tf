@@ -46,14 +46,12 @@ provider "scaleway" {
 }
 
 provider "kubernetes" {
-  alias                  = "multiaz"
   host                   = scaleway_k8s_cluster.kapsule.kubeconfig[0].host
   token                  = scaleway_k8s_cluster.kapsule.kubeconfig[0].token
   cluster_ca_certificate = base64decode(scaleway_k8s_cluster.kapsule.kubeconfig[0].cluster_ca_certificate)
 }
 
 provider "kubectl" {
-  alias                  = "multiaz"
   host                   = scaleway_k8s_cluster.kapsule.kubeconfig[0].host
   token                  = scaleway_k8s_cluster.kapsule.kubeconfig[0].token
   cluster_ca_certificate = base64decode(scaleway_k8s_cluster.kapsule.kubeconfig[0].cluster_ca_certificate)
@@ -61,7 +59,6 @@ provider "kubectl" {
 }
 
 provider "helm" {
-  alias = "multiaz"
   kubernetes {
     host                   = scaleway_k8s_cluster.kapsule.kubeconfig[0].host
     token                  = scaleway_k8s_cluster.kapsule.kubeconfig[0].token

@@ -21,8 +21,4 @@ resource "scaleway_vpc_private_network" "pn" {
   }
 
   tags = ["terraform", "default"]
-
-  depends_on = [
-    scaleway_vpc.vpc
-  ]
 }
