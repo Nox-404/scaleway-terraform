@@ -11,10 +11,6 @@ resource "scaleway_vpc_private_network" "pn" {
   # vpc_id = provisionned by the pgw
   region = var.region
 
-  ipv4_subnet {
-    subnet = "172.16.4.0/22"
-  }
-
   tags = ["terraform", "pgw"]
 }
 
